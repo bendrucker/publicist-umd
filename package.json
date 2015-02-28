@@ -1,0 +1,24 @@
+{
+  "name": "publicist-umd",
+  "version": "1.0.0",
+  "description": "UMD build task for publicist",
+  "main": "./src",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bendrucker/publicist-umd.git"
+  },
+  "keywords": [
+    "publicist",
+    "build",
+    "umd"
+  ],
+  "author": "Ben Drucker <bvdrucker@gmail.com> (http://www.bendrucker.me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bendrucker/publicist-umd/issues"
+  },
+  "homepage": "https://github.com/bendrucker/publicist-umd"
+}
