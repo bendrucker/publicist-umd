@@ -1,19 +1,26 @@
 'use strict';
 
-import {writeStream} from 'fs';
+import merge from 'deepmerge';
+import array from 'ensure-array';
+import {join} from 'path';
+import {createWriteStream as writeStream} from 'fs';
+import toPromise from 'stream-to-promise';
 import browserify from 'browserify';
 
-export default function umd (pack) {
-  const release = `./release/umd/${pack.get('name')}.js`;
-  return new Promise(function (resolve, reject) {
-    browserify({
-      standalone: pack.get('name')
-    })
-    .add(pack.get('main'))
-    .bundle()
-    .pipe(writeStream(release))
-    .on('error', reject)
-    .on('close', resolve);
+export default function umd (pack, config = {}) {
+  config = merge({
+    name: pack.get('name'),
+    filename: `${pack.get('name')}.js`,
+    browserify: {
+      transform: []
+    }
+  }, config);
+  const b = browserify({
+    standalone: config.name
   })
-  .return(release);
+  .add(pack.get('main'));
+  config.browserify.transform
+    .map(t => array(t))
+    .forEach(t => b.transform.apply(b, t));
+  return toPromise(b.bundle().pipe(writeStream(join(config.destination, config.filename))));
 }

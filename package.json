@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/bendrucker/publicist-umd/issues"
   },
-  "homepage": "https://github.com/bendrucker/publicist-umd"
+  "homepage": "https://github.com/bendrucker/publicist-umd",
+  "dependencies": {
+    "browserify": "~9.0.4",
+    "deepmerge": "~0.2.7",
+    "ensure-array": "0.0.5",
+    "stream-to-promise": "~1.0.4"
+  }
 }
