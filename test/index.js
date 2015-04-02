@@ -28,6 +28,7 @@ describe('publicist-umd', function () {
     const window = {};
     run(code, {window});
     assert.equal(window[name], 'foo');
+    return code;
   }
 
   it('builds a umd bundle', () => {
@@ -50,7 +51,30 @@ describe('publicist-umd', function () {
       }
     })
     .return('es6')
-    .then(assertBuild);
+    .then(assertBuild)
+    .then((code) => {
+      assert(code.includes('COMMENT'));
+    });
+  });
+
+  it('can set transforms with options', () => {
+    pack.set('name', 'es6');
+    pack.set('main', join(__dirname, 'fixtures/es6.js'));
+    return umd(pack, {
+      destination: output,
+      browserify: {
+        transform: [
+          ['babelify', {
+            comments: false
+          }]
+        ]
+      }
+    })
+    .return('es6')
+    .then(assertBuild)
+    .then((code) => {
+      assert(!code.includes('COMMENT'));
+    });
   });
 
 });
