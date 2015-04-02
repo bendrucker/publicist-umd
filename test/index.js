@@ -8,10 +8,11 @@ import {mkdirSync, readFileSync} from 'fs';
 import {join} from 'path';
 import {runInNewContext as run} from 'vm';
 
-describe('publicist-umd', () => {
+describe('publicist-umd', function () {
 
   const output = join(__dirname, 'output');
-  console.log(output);
+
+  this.timeout(3000);
 
   let pack;
   beforeEach(() => {
@@ -22,21 +23,34 @@ describe('publicist-umd', () => {
     rmSync(output);
   });
 
+  function assertBuild (name) {
+    const code = readFileSync(join(output, `${name}.js`)).toString();
+    const window = {};
+    run(code, {window});
+    assert.equal(window[name], 'foo');
+  }
+
   it('builds a umd bundle', () => {
     pack.set('name', 'normal');
     pack.set('main', join(__dirname, 'fixtures/normal.js'));
     return umd(pack, {
       destination: output
     })
-    .then(() => {
-      return readFileSync(join(output, 'normal.js'));
+    .return('normal')
+    .then(assertBuild);
+  });
+
+  it('can set transforms', () => {
+    pack.set('name', 'es6');
+    pack.set('main', join(__dirname, 'fixtures/es6.js'));
+    return umd(pack, {
+      destination: output,
+      browserify: {
+        transform: ['babelify']
+      }
     })
-    .call('toString')
-    .then((code) => {
-      const window = {};
-      run(code, {window});
-      assert.equal(window.normal, 'foo');
-    });
+    .return('es6')
+    .then(assertBuild);
   });
 
 });
