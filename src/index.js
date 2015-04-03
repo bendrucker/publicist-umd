@@ -22,5 +22,5 @@ export default function umd (pack, config = {}) {
   config.browserify.transform
     .map(t => array(t))
     .forEach(t => b.transform.apply(b, t));
-  return toPromise(b.bundle().pipe(writeStream(join(config.destination, config.filename))));
+  return toPromise(b.bundle().pipe(writeStream(join(config.dest, config.filename))));
 }

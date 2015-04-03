@@ -35,7 +35,7 @@ describe('publicist-umd', function () {
     pack.set('name', 'normal');
     pack.set('main', join(__dirname, 'fixtures/normal.js'));
     return umd(pack, {
-      destination: output
+      dest: output
     })
     .return('normal')
     .then(assertBuild);
@@ -45,7 +45,7 @@ describe('publicist-umd', function () {
     pack.set('name', 'es6');
     pack.set('main', join(__dirname, 'fixtures/es6.js'));
     return umd(pack, {
-      destination: output,
+      dest: output,
       browserify: {
         transform: ['babelify']
       }
@@ -61,7 +61,7 @@ describe('publicist-umd', function () {
     pack.set('name', 'es6');
     pack.set('main', join(__dirname, 'fixtures/es6.js'));
     return umd(pack, {
-      destination: output,
+      dest: output,
       browserify: {
         transform: [
           ['babelify', {
