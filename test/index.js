@@ -5,12 +5,12 @@ import * as umd from '../';
 import {Package as Pack} from 'packhorse';
 import {sync as rmSync} from 'rimraf';
 import {mkdirSync, readFileSync} from 'fs';
-import {join} from 'path';
+import {resolve} from 'path';
 import {runInNewContext as run} from 'vm';
 
 describe('publicist-umd', function () {
 
-  const output = join(__dirname, 'output');
+  const output = resolve(__dirname, 'output');
 
   this.timeout(3000);
 
@@ -24,7 +24,7 @@ describe('publicist-umd', function () {
   });
 
   function assertBuild (name) {
-    const code = readFileSync(join(output, `${name}.js`)).toString();
+    const code = readFileSync(resolve(output, `${name}.js`)).toString();
     const window = {};
     run(code, {window});
     assert.equal(window[name], 'foo');
@@ -33,7 +33,7 @@ describe('publicist-umd', function () {
 
   it('builds a umd bundle', () => {
     pack.set('name', 'normal');
-    pack.set('main', join(__dirname, 'fixtures/normal.js'));
+    pack.set('main', resolve(__dirname, 'fixtures/normal.js'));
     return umd.build(pack, umd.defaults(pack, {
       dest: output
     }))
@@ -43,7 +43,7 @@ describe('publicist-umd', function () {
 
   it('can set transforms', () => {
     pack.set('name', 'es6');
-    pack.set('main', join(__dirname, 'fixtures/es6.js'));
+    pack.set('main', resolve(__dirname, 'fixtures/es6.js'));
     return umd.build(pack, umd.defaults(pack, {
       dest: output,
       browserify: {
@@ -59,7 +59,7 @@ describe('publicist-umd', function () {
 
   it('can set transforms with options', () => {
     pack.set('name', 'es6');
-    pack.set('main', join(__dirname, 'fixtures/es6.js'));
+    pack.set('main', resolve(__dirname, 'fixtures/es6.js'));
     return umd.build(pack, umd.defaults(pack, {
       dest: output,
       browserify: {
