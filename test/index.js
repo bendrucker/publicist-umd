@@ -1,7 +1,7 @@
 'use strict';
 
 import assert from 'assert';
-import umd from '../';
+import * as umd from '../';
 import {Package as Pack} from 'packhorse';
 import {sync as rmSync} from 'rimraf';
 import {mkdirSync, readFileSync} from 'fs';
@@ -34,9 +34,9 @@ describe('publicist-umd', function () {
   it('builds a umd bundle', () => {
     pack.set('name', 'normal');
     pack.set('main', join(__dirname, 'fixtures/normal.js'));
-    return umd(pack, {
+    return umd.build(pack, umd.defaults(pack, {
       dest: output
-    })
+    }))
     .return('normal')
     .then(assertBuild);
   });
@@ -44,12 +44,12 @@ describe('publicist-umd', function () {
   it('can set transforms', () => {
     pack.set('name', 'es6');
     pack.set('main', join(__dirname, 'fixtures/es6.js'));
-    return umd(pack, {
+    return umd.build(pack, umd.defaults(pack, {
       dest: output,
       browserify: {
         transform: ['babelify']
       }
-    })
+    }))
     .return('es6')
     .then(assertBuild)
     .then((code) => {
@@ -60,7 +60,7 @@ describe('publicist-umd', function () {
   it('can set transforms with options', () => {
     pack.set('name', 'es6');
     pack.set('main', join(__dirname, 'fixtures/es6.js'));
-    return umd(pack, {
+    return umd.build(pack, umd.defaults(pack, {
       dest: output,
       browserify: {
         transform: [
@@ -69,7 +69,7 @@ describe('publicist-umd', function () {
           }]
         ]
       }
-    })
+    }))
     .return('es6')
     .then(assertBuild)
     .then((code) => {

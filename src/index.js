@@ -7,14 +7,17 @@ import {createWriteStream as writeStream} from 'fs';
 import toPromise from 'stream-to-promise';
 import browserify from 'browserify';
 
-export default function umd (pack, config = {}) {
-  config = merge({
+export function defaults (pack, config) {
+  return merge({
     name: pack.get('name'),
     filename: `${pack.get('name')}.js`,
     browserify: {
       transform: []
     }
   }, config);
+}
+
+export function build (pack, config) {
   const b = browserify({
     standalone: config.name
   })
