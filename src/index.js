@@ -3,9 +3,12 @@
 import merge from 'deepmerge'
 import array from 'ensure-array'
 import {resolve} from 'path'
-import {createWriteStream as writeStream} from 'fs'
-import toPromise from 'stream-to-promise'
 import browserify from 'browserify'
+import Promise from 'bluebird'
+import outputFile from 'output-file'
+
+const writeFile = Promise.promisify(outputFile)
+Promise.promisifyAll(browserify.prototype)
 
 export function defaults (pack, config) {
   return merge({
@@ -25,5 +28,8 @@ export function build (pack, config) {
   config.browserify.transform
     .map(t => array(t))
     .forEach(t => b.transform.apply(b, t))
-  return toPromise(b.bundle().pipe(writeStream(resolve(config.dest, config.filename))))
+  return b.bundleAsync()
+    .then((code) => {
+      return writeFile(resolve(config.dest, config.filename), code)
+    })
 }
