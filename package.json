@@ -1,6 +1,6 @@
 {
   "name": "publicist-umd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "UMD build task for publicist",
   "main": "./src",
   "scripts": {
