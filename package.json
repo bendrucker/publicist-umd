@@ -37,5 +37,10 @@
     "packhorse": "~1.2.0",
     "rimraf": "~2.3.2",
     "standard": "bendrucker/standard#babel"
+  },
+  "standard": {
+    "ignore": [
+      "lib/"
+    ]
   }
 }
