@@ -6,6 +6,7 @@ import {resolve} from 'path'
 import browserify from 'browserify'
 import Promise from 'bluebird'
 import outputFile from 'output-file'
+import clone from 'clone'
 
 const writeFile = Promise.promisify(outputFile)
 Promise.promisifyAll(browserify.prototype)
@@ -25,7 +26,7 @@ export function build (pack, config) {
     standalone: config.name
   })
   .add(pack.get('main'))
-  config.browserify.transform
+  clone(config.browserify.transform)
     .map(t => array(t))
     .forEach(t => b.transform.apply(b, t))
   return b.bundleAsync()

@@ -25,6 +25,7 @@
   "dependencies": {
     "bluebird": "~2.9.25",
     "browserify": "~9.0.4",
+    "clone": "~1.0.2",
     "deepmerge": "~0.2.7",
     "ensure-array": "0.0.5",
     "output-file": "~1.1.1"
