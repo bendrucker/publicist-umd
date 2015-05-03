@@ -2,7 +2,7 @@
   "name": "publicist-umd",
   "version": "1.0.2",
   "description": "UMD build task for publicist",
-  "main": "./src",
+  "main": "./lib",
   "scripts": {
     "test": "standard && mocha --compilers js:babel/register test/*.js",
     "build": "babel ./src -d ./lib"
